@@ -1,6 +1,6 @@
 # kalix-vue-common
 
-> A Vue.js project
+> Kalix common pugins 0.0.1
 
 ## Build Setup
 
