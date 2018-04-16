@@ -53,12 +53,12 @@ ManagerUserDutyID = 104954
   isPermission = true
 
 [[GlobalFilter]]
-  path = "filters/dictFilter.js"
+  path = "common/dictFilter.js"
   name = "getDictName"
 
 # 附件管理
 [[GlobalComponent]]
-  path = "common/baseAttachmentDialog.vue"
+  path = "components/common/baseAttachmentDialog.vue"
   name = "AttachmentDialog"
 # baseToolBar 的默认按钮定义
 [[GlobalToolBarButtonList]]

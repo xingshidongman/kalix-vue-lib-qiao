@@ -37,6 +37,7 @@ import {CacheKeyObject, KeyValueObject, DictKeyValueObject} from '../common/keyV
 import {strToUnicode, unicodeToStr} from '../common/unicode-convert'
 import {isEmptyObject, concatArrayObject, concatObject, getNewObject} from '../common/util'
 import {formatDate, GMTToStr} from '../common/typeFormat'
+import getDictName from '../common/dictFilter'
 
 const components = [
   BaseDialog,
@@ -70,6 +71,10 @@ const components = [
   BaseTree2
 ]
 
+// const filters = [
+//   DictFilter
+// ]
+
 const common = {
   install: function (Vue, opts) {
     opts = opts | {}
@@ -81,7 +86,10 @@ const common = {
       console.log('component.name=========', component.name)
       Vue.component(component.name, component)
     })
-
+    // filters.map((filter) => {
+    //   Vue.filter(filter.name, filter.filters)
+    // })
+    Vue.filter('getDictName', getDictName)
     // 内置对象使用
     // Vue.prototype.$Axios = Vue.axios
 
@@ -90,6 +98,8 @@ const common = {
     Vue.prototype.$KalixEventBus = EventBus
     Vue.prototype.$KalixMessage = Message
     Vue.prototype.$SearchDataMixin = SearchDataMixin
+    // Vue.prototype.$GlobalFilter = GlobalFilter
+    // Vue.prototype.$GlobalComponent = GlobalComponent
     // Vue.prototype.$KalixModuleUtil = ModuleUtil
 
     // JS方法加载
@@ -109,7 +119,6 @@ const common = {
 
     // Toml配置加载
     Vue.prototype.$KalixEventConfig = EventConfig
-
     // ModuleUtil.moduleAdd(Vue, 'common')
 
     let moduleInfo = {
@@ -117,20 +126,7 @@ const common = {
       moduleResolveArr: [],
       moduleKeyArr: []
     }
-/**
-    if (Vue.prototype.modulePlugins) {
-      if (Vue.prototype.modulePlugins.length) {
-        let existMonitor = Vue.prototype.modulePlugins.filter(function (item) {
-          return item.moduleName === 'common'
-        })
-        if (!existMonitor) {
-          Vue.prototype.modulePlugins.push(moduleInfo)
-        }
-      } else {
-        Vue.prototype.modulePlugins.push(moduleInfo)
-      }
-    }
- **/
+
     Vue.prototype.$module = moduleInfo
   }
 }

@@ -18,15 +18,16 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
+          'stylus-loader',
           'vue-style-loader',
           'css-loader'
-        ],
-      },      {
+        ]
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          loaders: {
-          }
+          loaders: {}
           // other vue-loader options go here
         }
       },
@@ -49,6 +50,14 @@ module.exports = {
       {
         test: /\.pug$/,
         loader: 'pug-loader'
+      },
+      {
+        test: /\.(styl)$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'stylus-loader'
+        ]
       },
       {
         test: /\.(js|vue)$/,

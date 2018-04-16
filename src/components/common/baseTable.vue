@@ -513,7 +513,8 @@
           case 'attachment': {
             console.log(' attachment is clicked ', 'background:#c7320a;')
             let that = this
-            this.whichBizDialog = 'AttachmentDialog'
+            // this.whichBizDialog = 'AttachmentDialog'
+            this.whichBizDialog = 'kalix-attachment-dialog'
             setTimeout(() => {
               that.$refs.kalixDialog.openDialog(row, this.bizKey, this.fileAccept)
             }, 20)
