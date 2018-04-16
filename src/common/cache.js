@@ -3,25 +3,25 @@
  * 封装本地缓存
  */
 export default {
-  save(key, data) {
+  save: function (key, data) {
     sessionStorage.setItem(key, data)
   },
-  get(key) {
+  get: function (key) {
     return sessionStorage.getItem(key)
   },
-  clear() {
+  clear: function () {
     sessionStorage.clear()
   },
-  _saveLocal(key, data) {
+  _saveLocal: function (key, data) {
     localStorage.setItem(key, data)
   },
-  _getLocal(key) {
+  _getLocal: function (key) {
     return localStorage.getItem(key)
   },
-  _removeLocal(key) {
+  _removeLocal: function (key) {
     localStorage.removeItem(key)
   },
-  _clearLocal() {
+  _clearLocal: function () {
     localStorage.clear()
   }
 }
