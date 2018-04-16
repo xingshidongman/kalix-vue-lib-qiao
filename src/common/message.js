@@ -5,26 +5,26 @@
 import {Message} from 'element-ui'
 
 export default {
-  message(_type, _msg, _showClose = true) {
+  message: function (_type, _msg, _showClose = true) {
     Message({
       type: _type,
       showClose: _showClose,
       message: _msg
     })
   },
-  success(_msg, _showClose = true) {
+  success: function (_msg, _showClose = true) {
     this.message('success', _msg, _showClose)
   },
-  warning(_msg, _showClose = true) {
+  warning: function (_msg, _showClose = true) {
     this.message('warning', _msg, _showClose)
   },
-  error(_msg, _showClose = true) {
+  error: function (_msg, _showClose = true) {
     this.message('error', _msg, _showClose)
   },
-  info(_msg, _showClose = true) {
+  info: function (_msg, _showClose = true) {
     this.message('info', _msg, _showClose)
   },
-  processResult(res) { // 处理返回结果
+  processResult: function (res) { // 处理返回结果
     if (res.data.success) {
       this.success(res.data.msg)
     } else {
