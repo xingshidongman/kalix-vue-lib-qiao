@@ -2,6 +2,7 @@ import BaseDialog from '../components/common/baseDialog'
 import BaseToolBar from '../components/common/baseToolBar'
 import BaseTable from '../components/common/baseTable'
 import BaseTableTool from '../components/common/baseTableTool'
+import BaseDataColumn from '../components/common/baseDataColumn'
 import BaseDictSelect from '../components/common/baseDictSelect'
 import BaseMapSelect from '../components/common/baseMapSelect'
 import BaseSelect from '../components/common/baseSelect'
@@ -28,9 +29,11 @@ import BasePagedTable from '../components/common/basePagedTable'
 import BaseTree from '../components/common/baseTree'
 import BaseTree2 from '../components/common/baseTree2'
 import EventConfig from '../components/common/event.toml'
+import GlobalConfig from '../config/global.toml'
 import Cache from '../common/cache'
 import EventBus from '../common/eventbus'
 import Message from '../common/message'
+import PrettyBytes from '../common/pretty-bytes'
 // import ModuleUtil from '../common/moduleUtil'
 import {SearchDataMixin} from '../common/searchmixin'
 import {CacheKeyObject, KeyValueObject, DictKeyValueObject} from '../common/keyValueObject'
@@ -44,6 +47,7 @@ const components = [
   BaseToolBar,
   BaseTable,
   BaseTableTool,
+  BaseDataColumn,
   BaseDictSelect,
   BaseMapSelect,
   BaseSelect,
@@ -116,9 +120,11 @@ const common = {
     Vue.prototype.$M_GetNewObject = getNewObject
     Vue.prototype.$M_FormatDate = formatDate
     Vue.prototype.$M_GMTToStr = GMTToStr
+    Vue.prototype.$M_KalixPrettyBytes = PrettyBytes
 
     // Toml配置加载
     Vue.prototype.$KalixEventConfig = EventConfig
+    Vue.prototype.$KalixGlobalConfig = GlobalConfig
     // ModuleUtil.moduleAdd(Vue, 'common')
 
     let moduleInfo = {
