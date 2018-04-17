@@ -1,7 +1,7 @@
 {
   "name": "kalix-vue-common",
   "description": "kalix common plugin",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "yangze8818 <yangze_lmkj@163.com>",
   "license": "MIT",
   "private": false,
