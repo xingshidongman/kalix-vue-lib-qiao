@@ -38,7 +38,7 @@
   import EventBus from '../../common/eventbus'
   import {AttachmentURL} from '../../config/global.toml'
   import PagedTable from './basePagedTable'
-  import DateColumn from './baseDataColumn'
+  import DateColumn from './baseDateColumn'
   import prettyBytes from '../../common/pretty-bytes'
 
   const MAX_TABLE_HEIGHT = 450

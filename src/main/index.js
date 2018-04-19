@@ -2,7 +2,7 @@ import BaseDialog from '../components/common/baseDialog'
 import BaseToolBar from '../components/common/baseToolBar'
 import BaseTable from '../components/common/baseTable'
 import BaseTableTool from '../components/common/baseTableTool'
-import BaseDataColumn from '../components/common/baseDataColumn'
+import BaseDateColumn from '../components/common/baseDateColumn'
 import BaseDictSelect from '../components/common/baseDictSelect'
 import BaseMapSelect from '../components/common/baseMapSelect'
 import BaseSelect from '../components/common/baseSelect'
@@ -47,7 +47,7 @@ const components = [
   BaseToolBar,
   BaseTable,
   BaseTableTool,
-  BaseDataColumn,
+  BaseDateColumn,
   BaseDictSelect,
   BaseMapSelect,
   BaseSelect,

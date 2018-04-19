@@ -7,7 +7,7 @@
 
 <script type="text/ecmascript-6">
   export default {
-    name: 'kalix-data-column',
+    name: 'kalix-date-column',
     props: {
       prop: '',
       label: ''
