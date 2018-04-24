@@ -1,7 +1,7 @@
 {
   "name": "kalix-vue-common",
   "description": "kalix common plugin",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "yangze8818 <yangze_lmkj@163.com>",
   "license": "MIT",
   "private": false,
@@ -19,19 +19,18 @@
     "url": "https://github.com/yangze8818/kalix-vue-common"
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.18.0",
     "cross-env": "^5.1.4",
     "crypto-js": "^3.1.9-1",
     "date-fns": "^1.29.0",
     "easemob-websdk": "^1.4.12",
     "echarts": "^3.8.5",
-    "element-ui": "^2.0.4",
+    "element-ui": "^2.3.4",
     "smooth-scrollbar": "^8.2.3",
     "strophe.js": "^1.2.14",
-    "stylus": "^0.54.5",
     "underscore": "^1.8.3",
     "vue": "^2.5.2",
-    "vue-axios": "^2.0.2",
+    "vue-axios": "^2.1.1",
     "vue-router": "^3.0.1"
   },
   "browserslist": [
