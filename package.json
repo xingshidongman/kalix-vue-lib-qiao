@@ -1,11 +1,11 @@
 {
-  "name": "kalix-vue-common",
-  "description": "kalix common plugin",
+  "name": "kalix-vue-lib",
+  "description": "kalix lib plugin",
   "version": "0.0.8",
   "author": "yangze8818 <yangze_lmkj@163.com>",
   "license": "MIT",
   "private": false,
-  "main": "dist/kalix-common.js",
+  "main": "dist/kalix-lib.js",
   "files": [
     "dist",
     "src"
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yangze8818/kalix-vue-common"
+    "url": "https://github.com/yangze8818/kalix-vue-lib"
   },
   "dependencies": {
     "axios": "^0.18.0",

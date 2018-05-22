@@ -1,6 +1,6 @@
-# kalix-vue-common
+# kalix-vue-lib
 
-> Kalix common pugins 0.0.1
+> Kalix lib pugins 0.0.1
 
 ## Build Setup
 
