@@ -79,7 +79,7 @@ const components = [
 //   DictFilter
 // ]
 
-const common = {
+const lib = {
   install: function (Vue, opts) {
     opts = opts | {}
 
@@ -128,7 +128,7 @@ const common = {
     // ModuleUtil.moduleAdd(Vue, 'common')
 
     let moduleInfo = {
-      moduleName: 'common',
+      moduleName: 'lib',
       moduleResolveArr: [],
       moduleKeyArr: []
     }
@@ -138,6 +138,6 @@ const common = {
 }
 // ModuleUtil.globalUseComponent(common)
 if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(common)
+  window.Vue.use(lib)
 }
-export default common
+export default lib
