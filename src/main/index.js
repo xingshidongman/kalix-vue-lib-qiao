@@ -35,7 +35,7 @@ import EventBus from '../common/eventbus'
 import Message from '../common/message'
 import PrettyBytes from '../common/pretty-bytes'
 // import ModuleUtil from '../common/moduleUtil'
-import {SearchDataMixin} from '../common/searchmixin'
+// import {SearchDataMixin} from '../common/searchmixin'
 import {CacheKeyObject, KeyValueObject, DictKeyValueObject} from '../common/keyValueObject'
 import {strToUnicode, unicodeToStr} from '../common/unicode-convert'
 import {isEmptyObject, concatArrayObject, concatObject, getNewObject} from '../common/util'
@@ -101,7 +101,7 @@ const lib = {
     Vue.prototype.$KalixCatch = Cache
     Vue.prototype.$KalixEventBus = EventBus
     Vue.prototype.$KalixMessage = Message
-    Vue.prototype.$SearchDataMixin = SearchDataMixin
+    // Vue.prototype.$SearchDataMixin = SearchDataMixin
     // Vue.prototype.$GlobalFilter = GlobalFilter
     // Vue.prototype.$GlobalComponent = GlobalComponent
     // Vue.prototype.$KalixModuleUtil = ModuleUtil
