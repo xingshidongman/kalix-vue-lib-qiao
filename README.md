@@ -1,7 +1,7 @@
 # kalix-vue-lib
 
-> Kalix lib pugins 0.0.1
-
+> Kalix lib pugins 0.1.3
+修改menu编译文件
 ## Build Setup
 
 ``` bash
