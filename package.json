@@ -1,7 +1,7 @@
 {
   "name": "kalix-vue-lib",
   "description": "kalix lib plugin",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": "yangze8818 <yangze_lmkj@163.com>",
   "license": "MIT",
   "private": false,
