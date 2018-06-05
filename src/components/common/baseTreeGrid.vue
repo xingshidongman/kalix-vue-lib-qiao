@@ -262,14 +262,6 @@ export default {
         params: {}
       }).then(res => {
         this.items = res.data.children
-        // 加载数据后自动选中第一个节点
-        this.$nextTick(() => {
-          const firstNode = document.querySelector('.el-tree-node')
-          if (firstNode) {
-            firstNode.click()
-          }
-        })
-//          this._getTableHeight()
         if (this.customRender) { // 对table的数据进行自定义的修饰
           this.customRender(this.items)
         }
