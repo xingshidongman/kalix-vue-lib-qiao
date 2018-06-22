@@ -2,6 +2,10 @@
   描述：附件对话框
   开发人：桑杨
   开发日期：2017年8月17日
+
+  修改描述：增加预览按钮
+  修改人：桑杨
+  修改日期：2018年6月21日16:11:52
 -->
 <template lang="pug">
   el-dialog(v-bind:visible="visible" v-bind:before-close="close"
@@ -26,12 +30,14 @@
           el-table-column(prop="attachmentType" label="类型" width="116")
           kalix-date-column(prop="creationDate" label="上传日期")
           el-table-column(width="1")
+    carousel(ref="filePreviewCarousel")
     div.dialog-footer(slot="footer")
       el-button.upload
         i.iconfont.icon-upload
         | 上 传
         input(ref="iptFile" type="file" v-on:change="selectedFile" v-bind:accept="fileAccept" )
       el-button(type="primary" v-on:click="onCancelClick") 关 闭
+
 </template>
 <script type="text/ecmascript-6">
   import Message from '../../common/message'
@@ -40,13 +46,27 @@
   import PagedTable from './basePagedTable'
   import DateColumn from './baseDateColumn'
   import prettyBytes from '../../common/pretty-bytes'
+  import Carousel from './baseCarousel'
 
   const MAX_TABLE_HEIGHT = 450
   export default {
     name: 'kalix-attachment-dialog',
     data() {
       return {
+        previewItems: [],
         btnList: [
+          {
+            id: 'preview',
+            title: '预览',
+            isShow: true,
+            isPermission: true,
+            cond: (scope) => {
+              let attachmentName = scope.row.attachmentName
+              let extName = attachmentName.substring(attachmentName.lastIndexOf('.'))
+              let reg = /^.doc[x]?$/
+              return reg.test(extName)
+            }
+          },
           {
             id: 'delete',
             title: '删除',
@@ -123,6 +143,18 @@
       },
       customTableTool(row, btnId, tb) {
         switch (btnId) {
+          case 'preview': // 预览
+            // console.log('预览附件', row)
+            this.$http.request({
+              method: 'GET',
+              url: `/camel/rest/word/reviews?attId=${row.attachmentId}&attName=${row.attachmentName}&attPath=${row.attachmentPath}`
+            }).then(res => {
+              // console.log('res', res.data.totalCount)
+              // console.log('res', res.data.data)
+              // this.previewItems = res.data.data
+              this.$refs.filePreviewCarousel.openDialog(res.data.data, this.bizKey)
+            })
+            break
           case 'download':
             console.log('row', row.attachmentPath)
             window.open(row.attachmentPath)
@@ -173,6 +205,7 @@
     },
     computed: {},
     components: {
+      Carousel,
       PagedTable,
       KalixDateColumn: DateColumn
     }
@@ -203,4 +236,6 @@
 
   .kalix-table-pagination
     margin-top 20px
+
+
 </style>

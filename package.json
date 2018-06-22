@@ -1,7 +1,7 @@
 {
   "name": "kalix-vue-lib",
   "description": "kalix lib plugin",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "author": "yangze8818 <yangze_lmkj@163.com>",
   "license": "MIT",
   "private": false,
@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "pub": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",

@@ -2,6 +2,7 @@
 
 cacheTime = 7200000 #缓存校验时间
 baseURL = "http://localhost:8181"
+baseWsURL = "ws://localhost:8181/websocket"
 
 systemApplicationsBaseURL = "/camel/rest/system/applications/"
 loginUrl = "/login.jsp"
