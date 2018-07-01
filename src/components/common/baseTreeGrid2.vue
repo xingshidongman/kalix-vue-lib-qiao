@@ -65,21 +65,15 @@
       v-bind:formRules="formRules")
 </template>
 <script>
+import ToolBar from './baseToolBar'
 import Cache from '../../common/cache'
 import EventBus from '../../common/eventbus'
-import TableTool from './baseTableTool'
-import ToolBar from './baseToolBar'
-import Dialog from './baseDialog'
-import Message from '../../common/message'
-import {
-  ON_SEARCH_BUTTON_CLICK,
-  ON_REFRESH_DATA
-} from './event.toml'
+import {ON_SEARCH_BUTTON_CLICK, ON_REFRESH_DATA} from './event.toml'
 
 export default {
-  name: 'kalix-tree-grid',
+  name: 'kalix-tree-grid-1',
   props: {
-    title: {  // 表格组件标题名
+    title: { // 表格组件标题名
       type: String,
       required: true
     },
@@ -91,19 +85,19 @@ export default {
       type: Boolean,
       default: false
     },
-    toolbarBtnList: {   //  toolBar 中按钮数组
+    toolbarBtnList: { // toolBar 中按钮数组
       type: Array,
       default: () => {
         return []
       }
     },
-    bizSearch: {  //  使用的搜索组件名称
+    bizSearch: { //  使用的搜索组件名称
       type: String
     },
-    bizDialog: {  //  使用的对话框组件名称
+    bizDialog: { //  使用的对话框组件名称
       type: Array
     },
-    bizKey: {  // 主鍵
+    bizKey: { // 主鍵
       type: String
     },
     columns: Array,
@@ -137,6 +131,21 @@ export default {
     isLimitLayer: {
       type: Boolean,
       default: true
+    },
+    jsonStr: { // 数据列表请求的查询条件
+      type: String,
+      default: ''
+    },
+    otherStr: { // 非search from下参数
+      type: String,
+      default: ''
+    },
+    appendCondition: { // search组件之外的查询条件
+      type: Array
+    },
+    noSearchParam: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -238,7 +247,6 @@ export default {
       that._getTableHeight()
     })
     EventBus.$on(this.bizKey + '-' + 'KalixDialogClose', () => {
-//        console.log(`%c[kalix] reset ${this.bizKey} whichBizDialog`, 'background: #222;color: #bada55')
       this.whichBizDialog = ''
     })
     //  绑定表格 icon 图标
@@ -256,10 +264,27 @@ export default {
   methods: {
     // 获取表格数据
     getData() {
+      if (!this.targetURL) {
+        return
+      }
+
+      let _data = {
+        jsonStr: this.jsonStr,
+        otherStr: this.otherStr
+      }
+      console.log('_data===================0000000000000', _data)
+      if (this.noSearchParam === false) {
+        console.log('_data===================', _data)
+        _data = Object.assign(_data, this.searchParam)
+        // 添加search组件之外的查询条件，解决jsonStr key覆盖问题
+        if (this.appendCondition && _data.jsonStr.length > 0) {
+          _data.jsonStr = _data.jsonStr.substring(0, _data.jsonStr.length - 1) + ',' + this.appendCondition + '}'
+        }
+      }
       this.axios.request({
         method: 'GET',
         url: this.targetURL,
-        params: {}
+        params: _data
       }).then(res => {
         this.items = res.data.children
         if (this.customRender) { // 对table的数据进行自定义的修饰
@@ -271,6 +296,7 @@ export default {
           this.$emit('handleAfterSearch', this.items)
         }
       })
+
       const currentTreeListItem = JSON.parse(Cache.get('currentTreeListItem'))
       if (currentTreeListItem) {
         this.iconCls = currentTreeListItem.iconCls
@@ -300,50 +326,13 @@ export default {
         case 'refresh':
           this.onRefreshClick()
           break
-        case 'addUser':
-          this.onAddUserClick()
-          break
         default:
           this.customToolBar(btnId, this)
           break
       }
     },
     onAddClick() {
-      this.formModel.isLeaf = 1
-      // 添加按钮点击事件
-      // this.whichBizDialog = ''
-      let that = this
-      let dig =
-        this.bizDialog.filter((item) => {
-          return item.id === 'add'
-        })
-//        console.log(dig[0].dialog)3
-      this.whichBizDialog = dig[0].dialog
-      console.log('[onAddClick]', dig[0].dialog)
-//        this.$emit('update:formModel', {})
-      setTimeout(() => {
-//          EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, JSON.parse(this.tempFormModel))
-        if (this.checkId === 1) {
-          this.checkedItem = this.initItems[0]
-          this.formModel.parentName = '职能类别'
-          this.formModel.parentId = 1
-        } else {
-          this.formModel.parentName = this.checkedItem.name
-          this.formModel.parentId = this.checkedItem.id
-        }
-        let len
-        if (this.checkedItem && this.checkedItem.code) {
-          len = this.checkedItem.code.length
-        }
-        if (len > 6 && this.isLimitLayer) {
-          this.$alert('无法在该层级下增加节点！')
-        } else {
-          that.$refs.kalixDialog.$refs.kalixBizDialog.open('添加', false, this.formModel)
-          if (typeof (this.$refs.kalixDialog.init) === 'function') {
-            that.$refs.kalixDialog.init(this.dialogOptions) // 需要传参数，就在dialog里面定义init方法
-          }
-        }
-      }, 20)
+      this.$emit('addClick')
     },
     // 有无多选框折叠位置优化
     iconRow() {
@@ -353,10 +342,6 @@ export default {
         }
       }
       return 0
-    },
-    // 添加用户方法
-    onAddUserClick() {
-
     },
     // 设置td宽度,td的align
     tdStyle(column) {
@@ -617,8 +602,18 @@ export default {
     },
     onSearchClick(_searchParam) { // 查询按钮点击事件
       console.log('[kalix] base table search clicked', _searchParam)
-      this.searchParam = _searchParam
-      this.refresh()
+      // 设置searchparam
+      this.noSearchParam = false
+      // 兼容多个baseTable同时使用情况，用bizKey区分具体查询
+      if (_searchParam.bizKey) {
+        this.searchParam = _searchParam.searchObj
+        if (_searchParam.bizKey === this.bizKey) {
+          this.refresh()
+        }
+      } else {
+        this.searchParam = _searchParam
+        this.refresh()
+      }
     },
     formRules() {
     },
@@ -626,53 +621,17 @@ export default {
       this.getData()
     },
     refresh(bizKey) {
-      console.log(' ========= refresh ========= AAAAAAAAAAAAAAAAAAAAAAAAAAAA ', bizKey)
       this.getData()
     },
     btnClick(row, btnId) { // table工具栏点击事件
       console.log(row, btnId)
-      let result = this.makeData(row)
       switch (btnId) {
         case 'edit': {
-          this.whichBizDialog = ''
-          let dig =
-            this.bizDialog.filter((item) => {
-              return item.id === 'edit'
-            })
-          console.log('[kalix] edit dialog is: ' + dig[0].dialog)
-          this.whichBizDialog = dig[0].dialog
-          setTimeout(() => {
-//              this.$emit('update:formModel', row)
-//              EventBus.$emit(this.bizKey + '-' + ON_INIT_DIALOG_DATA, row)
-            this.$refs.kalixDialog.$refs.kalixBizDialog.open('编辑', true, result)
-            if (typeof (this.$refs.kalixDialog.init) === 'function') {
-              this.$refs.kalixDialog.init(this.dialogOptions)
-            }
-          }, 20)
-          console.log('edit is clicked')
+          this.$emit('editClick', row)
           break
         }
-
         case 'delete': {
-          console.log('delete is clicked')
-          this.$confirm('确定要删除吗?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            return this.axios.request({
-              method: 'DELETE',
-              url: this.targetURL + '/' + row.id,
-              params: {},
-              data: {
-                id: row.id
-              }
-            })
-          }).then(response => {
-            this.getData()
-            Message.success(response.data.msg)
-          }).catch(() => {
-          })
+          this.$emit('deleteClick', row)
           break
         }
         default: // 默认转到调用props的方法
@@ -694,9 +653,7 @@ export default {
     }
   },
   components: {
-    KalixTableTool: TableTool,
-    KalixToolBar: ToolBar,
-    KalixDialog: Dialog
+    KalixToolBar: ToolBar
   }
 }
 </script>
