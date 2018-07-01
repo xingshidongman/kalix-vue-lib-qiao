@@ -5,7 +5,7 @@
   "author": "yangze8818 <yangze_lmkj@163.com>",
   "license": "MIT",
   "private": false,
-  "main": "dist/kalix-lib.js",
+  "main": "dist/kalix-lib-qiao.js",
   "files": [
     "dist",
     "src"

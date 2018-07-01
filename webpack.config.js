@@ -8,8 +8,8 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
     // filename: 'build.js'
-    filename: 'kalix-lib.js',
-    library: 'KalixLib',
+    filename: 'kalix-lib-qiao.js',
+    library: 'KalixLibQiao',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
