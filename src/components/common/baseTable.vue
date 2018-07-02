@@ -486,7 +486,13 @@
           }
 
           case 'delete': {
-            console.log('delete is clicked')
+            console.log('delete is clicked', this.targetURL)
+            let requestURL = ''
+            if (this.targetURL.indexOf('menus') > 0 || this.targetURL.indexOf('contents') > 0) {
+              requestURL = this.targetURL.substring(0, this.targetURL.lastIndexOf('/'))
+            } else {
+              requestURL = this.targetURL
+            }
             this.$confirm('确定要删除吗?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
@@ -494,7 +500,7 @@
             }).then(() => {
               return this.axios.request({
                 method: 'DELETE',
-                url: this.targetURL + '/' + row.id,
+                url: requestURL + '/' + row.id,
                 params: {},
                 data: {
                   id: row.id
