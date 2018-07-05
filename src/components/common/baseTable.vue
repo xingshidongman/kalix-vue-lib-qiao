@@ -252,6 +252,7 @@
       console.log(this.bizKey + '  is activated')
       EventBus.$on(ON_SEARCH_BUTTON_CLICK, this.onSearchClick)
       EventBus.$on(ON_REFRESH_DATA, this.refresh)
+      this.getData()
       // d
       EventBus.$on(this.bizKey + '-' + 'KalixDialogClose', (closeParam) => {
         console.log(' ------- KalixDialogClose ------- ')
@@ -264,6 +265,7 @@
       console.log(this.bizKey + '  is deactivated')
       EventBus.$off(ON_SEARCH_BUTTON_CLICK)
       EventBus.$off(ON_REFRESH_DATA)
+      this.getData()
       // 11
       EventBus.$off(this.bizKey + '-' + 'KalixDialogClose')
     },
