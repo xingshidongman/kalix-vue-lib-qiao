@@ -66,6 +66,7 @@
       initOptions() {
         const DictKey = `${this.appName.toUpperCase()}-KEY`
         if (!Cache.get(DictKey)) {
+          console.log('this.paramObj=============', this.paramObj)
 //          console.log('this.requestUrl 111:')
           this.$http
             .get(this.requestUrl, {
@@ -81,6 +82,7 @@
                 this.options = res.data.data
                 this.defaultSelectVal()
               }
+              console.log('this.options================', this.options)
               Cache.save(DictKey, JSON.stringify(this.options))
             })
         } else {
@@ -91,6 +93,8 @@
       change(value) {
         this.$emit('input', value)
         let item = this.options.find(e => {
+          console.log('+++++++++++++value+++++++++++++++++++++', value)
+          console.log('+++++++++++++e.id+++++++++++++++++++++', e.id)
           return e.id === value
         })
         this.$emit('selectChange', item)
