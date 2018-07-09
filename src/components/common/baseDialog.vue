@@ -104,6 +104,8 @@
       submitAction() {  // 提交
         this.$refs.dialogForm.validate((valid) => {
           console.log('valid', valid)
+          this.formModel.parent = null
+          this.formModel.childred = null
           if (valid) {
             this.axios.request({
               method: this.isEdit ? 'PUT' : 'POST',
