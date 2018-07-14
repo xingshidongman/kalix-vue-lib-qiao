@@ -129,7 +129,7 @@
               }
               // 刷新列表
               console.log(' ===== BaseDialog ON_REFRESH_DATA ===== ', ON_REFRESH_DATA)
-              EventBus.$emit(ON_REFRESH_DATA, this.bizKey)
+              EventBus.$emit(ON_REFRESH_DATA, this.bizKey, this.formModel)
               this._afterDialogClose()
               console.log('[kalix] dialog submit button clicked !')
               this.visible = false
