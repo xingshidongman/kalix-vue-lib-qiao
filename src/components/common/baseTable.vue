@@ -16,7 +16,7 @@
         | {{title}}
       div.kalix-wrapper-bd
         kalix-tool-bar(v-if="isShowToolBarB"
-        v-bind:toolbarBtnList="toolbarBtnList" v-bind:bizKey="bizKey"
+        v-bind:toolbarBtnList="toolbarBtnListClone" v-bind:bizKey="bizKey"
         v-on:onToolBarClick="onToolBarClick"
         v-on:onCheckBtnList="onCheckBtnList")
         div.kalix-table-container(ref="kalixTableContainer" v-bind:style="tableContainerStyle")
@@ -240,7 +240,8 @@
         searchParam: {}, //  列表查询条件
         isShowToolBarB: true,
         currentRow: null,
-        wrapperTop: {}
+        wrapperTop: {},
+        toolbarBtnListClone: []
       }
     },
     created() {
@@ -614,6 +615,14 @@
               _permissionData.push(this.buttonPermissionPrefix + item.id)
             }
           })
+          if (this.toolbarBtnList && this.toolbarBtnList.length) {
+            this.toolbarBtnList.map(item => {  // 组成按钮验证字符串
+              item.permission = this.buttonPermissionPrefix + item.id
+              if (item.isPermission) {  // 判断是否参与校验
+                _permissionData.push(this.buttonPermissionPrefix + item.id)
+              }
+            })
+          }
           // 发送按钮验证
           if (_permissionData.length > 0) {
             this.$http.get(`${SecurityBtnUrl}${_permissionData.join('_')}`).then(res => {
@@ -623,8 +632,25 @@
                     return e
                   }
                 })
-                tmp.isShow = item.status  // 根据返回的权限确定按钮是否显示
+                if (tmp) {
+                  tmp.isShow = item.status  // 根据返回的权限确定按钮是否显示
+                }
               })
+              let tempToolbarBtnList = []
+              res.data.buttons.forEach(item => {
+                if (this.toolbarBtnList && this.toolbarBtnList.length) {
+                  let tmp = this.toolbarBtnList.find(e => {
+                    if (e.permission === item.permission) {
+                      return e
+                    }
+                  })
+                  if (tmp) {
+                    tmp.isShow = item.status
+                    tempToolbarBtnList.push(tmp)
+                  }
+                }
+              })
+              this.toolbarBtnListClone = tempToolbarBtnList
             })
           }
 //          console.log(`[Kalix] table tool button list is `, this.btnList)
