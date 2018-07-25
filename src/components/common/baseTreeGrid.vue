@@ -1,68 +1,64 @@
 <template lang="pug">
-  div.kalix-article
-    keep-alive
+  keep-alive
+    div.kalix-article
       component(
       v-bind:is="bizSearch"
       ref="bizSearchRef"
       v-if="bizSearch"
       v-on:onSearchBtnClick="onSearchClick")
-    div.kalix-wrapper(v-bind:style="setWrapperStyle()" style="bottom:8px;")
-      div.kalix-wrapper-hd
-        i(v-bind:class="iconCls")
-        | {{title}}
-      div.kalix-wrapper-bd
-        template(v-if="isToolBarSelf")
-          kalix-tool-bar(v-if="isShowToolBar" v-bind:toolbarBtnList="toolbarBtnList" v-on:onToolBarClick="onToolBarSelfClick")
-        template(v-else)
-          kalix-tool-bar(v-if="isShowToolBar" v-bind:toolbarBtnList="toolbarBtnList" v-on:onToolBarClick="onToolBarClick")
-        div.kalix-table-container(ref="kalixTableContainer" v-bind:style="tableContainerStyle" style="overflow-y:auto;")
-          div.autoTbale(v-bind:style="{width:tableWidth}")
-            table.table.table-bordered(id="hl-tree-table")
-              thead
-                tr
-                  template(v-if="isColumnfixed")
-                    th(v-for="(column,index) in cloneColumns" v-bind:style="getColumnWidth(column.width)")
-                      i(v-if="column.type === 'hidden'" type="hidden" v-bind:style="{width:0}")
-                      label(v-else) {{ renderHeader(column, index) }}
-                        span.ivu-table-sort(v-if="column.sortable")
-                          i(v-bind:class="{on: column._sortType === 'asc'}"
-                          v-on:click.native="handleSort(index, 'asc')" title="上箭头")
-                          i(v-bind:class="{on: column._sortType === 'desc'}"
-                          v-on:click.native="handleSort(index, 'desc')" title="下箭头")
-                  template(v-else)
-                    th(v-for="(column,index) in cloneColumns")
-                      i(v-if="column.type === 'hidden'" type="hidden" v-bind:style="{width:0}")
-                      label(v-else) {{ renderHeader(column, index) }}
-                        span.ivu-table-sort(v-if="column.sortable")
-                          i(v-bind:class="{on: column._sortType === 'asc'}"
-                          v-on:click.native="handleSort(index, 'asc')" title="上箭头")
-                          i(v-bind:class="{on: column._sortType === 'desc'}"
-                          v-on:click.native="handleSort(index, 'desc')" title="下箭头")
-              tbody
-                tr(v-for="(item,index) in initItems" v-bind:key="item.id" v-show="show(item)" v-bind:class="{'child-tr':item.parent,'active':item.id === checkId}" v-on:click="toSelect(item)")
-                  td(v-for="(column,snum) in columns" v-bind:key="column.key" v-bind:style="tdStyle(column)")
-                    div(v-if="column.type === 'action'")
-                      template(v-for="action in column.actions")
-                        template(v-if="isRowButtonSelf")
-                          el-tooltip(v-bind:content="action.text" placement="top")
-                            el-button.base-teble-operation(type="text" v-on:click="btnSelfClick(item,action.type)" style="width:30px" v-bind:key="action.text") {{action.text}}
-                        template(v-else)
-                          el-tooltip(v-if="action.toolTipTitle" v-bind:content="action.toolTipTitle" placement="top")
-                            el-button.base-teble-operation(type="text" v-on:click="btnClick(item,action.type)" style="width:30px" v-bind:key="action.text") {{action.text}}
-                          el-tooltip(v-else v-bind:content="action.text" placement="top")
-                            el-button.base-teble-operation(type="text" v-on:click="btnClick(item,action.type)" style="width:30px" v-bind:key="action.text") {{action.text}}
-                    input(v-if="column.type === 'hidden'" type="hidden" v-bind:value="renderBody(item, column)")
-                    div(v-else)
-                      label(v-on:click="toggle(index,item)" v-if="!column.type")
-                        span.tree-icon(v-if='snum==2')
-                          i(v-html='item.spaceHtml')
-                          i.el-icon(v-if="item.children&&item.children.length>0"
-                          v-bind:class="{'el-icon-plus kalix-has-child':!item.expanded,'el-icon-minus':item.expanded}")
-                          i(v-else class="kailx-ms-tree-space")
-                        | {{renderBody(item, column)}}
-      component(:is="whichBizDialog" ref="kalixDialog"
-      v-bind:formModel="formModel"
-      v-bind:formRules="formRules")
+      div.kalix-wrapper(v-bind:style="setWrapperStyle()" style="bottom:8px;")
+        div.kalix-wrapper-hd
+          i(v-bind:class="iconCls")
+          | {{title}}
+        div.kalix-wrapper-bd
+          template(v-if="isToolBarSelf")
+            kalix-tool-bar(v-bind:toolbarBtnList="toolbarBtnListClone" v-on:onToolBarClick="onToolBarSelfClick")
+          template(v-else)
+            kalix-tool-bar(v-bind:toolbarBtnList="toolbarBtnListClone" v-on:onToolBarClick="onToolBarClick")
+          div.kalix-table-container(ref="kalixTableContainer" v-bind:style="tableContainerStyle" style="overflow-y:auto;")
+            div.autoTbale(v-bind:style="{width:tableWidth}")
+              table.table.table-bordered(id="hl-tree-table")
+                thead
+                  tr
+                    template(v-if="isColumnfixed")
+                      th(v-for="(column,index) in cloneColumns" v-bind:style="getColumnWidth(column.width)")
+                        i(v-if="column.type === 'hidden'" type="hidden" v-bind:style="{width:0}")
+                        label(v-else) {{ renderHeader(column, index) }}
+                          span.ivu-table-sort(v-if="column.sortable")
+                            i(v-bind:class="{on: column._sortType === 'asc'}"
+                            v-on:click.native="handleSort(index, 'asc')" title="上箭头")
+                            i(v-bind:class="{on: column._sortType === 'desc'}"
+                            v-on:click.native="handleSort(index, 'desc')" title="下箭头")
+                    template(v-else)
+                      th(v-for="(column,index) in cloneColumns")
+                        i(v-if="column.type === 'hidden'" type="hidden" v-bind:style="{width:0}")
+                        label(v-else) {{ renderHeader(column, index) }}
+                          span.ivu-table-sort(v-if="column.sortable")
+                            i(v-bind:class="{on: column._sortType === 'asc'}"
+                            v-on:click.native="handleSort(index, 'asc')" title="上箭头")
+                            i(v-bind:class="{on: column._sortType === 'desc'}"
+                            v-on:click.native="handleSort(index, 'desc')" title="下箭头")
+                tbody
+                  tr(v-for="(item,index) in initItems" v-bind:key="item.id" v-show="show(item)" v-bind:class="{'child-tr':item.parent,'active':item.id === checkId}" v-on:click="toSelect(item)")
+                    td(v-for="(column,snum) in columns" v-bind:key="column.key" v-bind:style="tdStyle(column)")
+                      div(v-if="column.type === 'action'")
+                        slot(name="treeGridToolSlot" slot-scope="item")
+                          template(v-if="btnSelfClick !== undefined")
+                            kalix-table-tool(v-if="isShowOperate" v-bind:displayStyle="2" v-bind:btnList="btnList" v-on:onTableToolBarClick="btnSelfClick" v-bind:isTreeGridTool="true" v-bind:scope="item")
+                          template(v-else)
+                            kalix-table-tool(v-if="isShowOperate" v-bind:displayStyle="2" v-bind:btnList="btnList" v-on:onTableToolBarClick="btnClick" v-bind:isTreeGridTool="true" v-bind:scope="item")
+                      input(v-if="column.type === 'hidden'" type="hidden" v-bind:value="renderBody(item, column)")
+                      div(v-else)
+                        label(v-on:click="toggle(index,item)" v-if="!column.type")
+                          span.tree-icon(v-if='snum==2')
+                            i(v-html='item.spaceHtml')
+                            i.el-icon(v-if="item.children&&item.children.length>0"
+                            v-bind:class="{'el-icon-plus kalix-has-child':!item.expanded,'el-icon-minus':item.expanded}")
+                            i(v-else class="kailx-ms-tree-space")
+                          | {{renderBody(item, column)}}
+        component(:is="whichBizDialog" ref="kalixDialog"
+        v-bind:formModel="formModel"
+        v-bind:formRules="formRules")
 </template>
 <script>
   import Cache from '../../common/cache'
@@ -71,6 +67,7 @@
   import ToolBar from './baseToolBar'
   import Dialog from './baseDialog'
   import Message from '../../common/message'
+  import {SecurityBtnUrl} from '../../config/global.toml'
   import {
     ON_SEARCH_BUTTON_CLICK,
     ON_REFRESH_DATA
@@ -96,6 +93,17 @@
         default: () => {
           return []
         }
+      },
+      btnList: {
+        type: Array,
+        required: false,
+        default: () => {
+          return []
+        }
+      },
+      buttonPermissionPrefix: { //  table中tool的按钮组件认证前缀
+        type: String,
+        default: ''   // 为空时候，不校验权限
       },
       bizSearch: {  //  使用的搜索组件名称
         type: String
@@ -154,7 +162,8 @@
         whichBizDialog: '', //
         checkId: 1,
         checkedItem: null,
-        searchParam: {} //  列表查询条件
+        searchParam: {}, //  列表查询条件
+        toolbarBtnListClone: []
       }
     },
     activated() {
@@ -169,8 +178,20 @@
       EventBus.$off(ON_REFRESH_DATA)
     },
     computed: {
+      tableContainerStyle() {
+        return {'top': (!this.isShowToolBar ? '56px' : '')}
+      },
       tableWidth() {
         return this.tdsWidth > this.screenWidth && this.screenWidth > 0 ? this.screenWidth + 'px' : '100%'
+      },
+      isShowOperate() {
+        if (!this.btnList || !this.btnList.length) {
+          return false
+        }
+        let items = this.btnList.filter(e => {
+          return e.isShow
+        })
+        return items.length
       }
     },
     watch: {
@@ -276,6 +297,67 @@
         if (currentTreeListItem) {
           this.iconCls = currentTreeListItem.iconCls
         }
+        this._validateButton()
+      },
+      /**
+       * 发送按钮权限认证
+       * @private
+       */
+      _validateButton() {
+        if (this.buttonPermissionPrefix !== '') { // 默认为空不校验
+          let _permissionData = []
+          this.btnList.map(item => {  // 组成按钮验证字符串
+            item.permission = this.buttonPermissionPrefix + item.id
+            if (item.isPermission) {  // 判断是否参与校验
+              _permissionData.push(this.buttonPermissionPrefix + item.id)
+            }
+          })
+          if (this.toolbarBtnList && this.toolbarBtnList.length) {
+            this.toolbarBtnList.map(item => {  // 组成按钮验证字符串
+              item.permission = this.buttonPermissionPrefix + item.id
+              if (item.isPermission) {  // 判断是否参与校验
+                _permissionData.push(this.buttonPermissionPrefix + item.id)
+              }
+            })
+          }
+          // 发送按钮验证
+          if (_permissionData.length > 0) {
+            this.$http.get(`${SecurityBtnUrl}${_permissionData.join('_')}`).then(res => {
+              console.log('---------------99999res.data.buttons=============', res.data.buttons)
+              res.data.buttons.forEach(item => {
+                let tmp = this.btnList.find(e => {
+                  if (e.permission === item.permission) {
+                    return e
+                  }
+                })
+                if (tmp) {
+                  console.log('---------------99999tmp=============', tmp)
+                  console.log('---------------99999item=============', item)
+                  tmp.isShow = item.status // 根据返回的权限确定按钮是否显示
+                }
+              })
+              let tempToolbarBtnList = []
+              res.data.buttons.forEach(item => {
+                if (this.toolbarBtnList && this.toolbarBtnList.length) {
+                  let tmp = this.toolbarBtnList.find(e => {
+                    if (e.permission === item.permission) {
+                      return e
+                    }
+                  })
+                  if (tmp) {
+                    console.log('---------------88888tmp=============', tmp)
+                    console.log('---------------88888item=============', item)
+                    tmp.isShow = item.status
+                    tempToolbarBtnList.push(tmp)
+                  }
+                }
+              })
+              console.log('---------------88888tempToolbarBtnList=============', tempToolbarBtnList)
+              this.toolbarBtnListClone = tempToolbarBtnList
+            })
+          }
+//          console.log(`[Kalix] table tool button list is `, this.btnList)
+        }
       },
       /**
        * 打开全部节点
@@ -298,9 +380,6 @@
           return {'top': '8px'}
         }
         return {}
-      },
-      tableContainerStyle() {
-        return {'top': (!this.isShowToolBar ? '56px' : '')}
       },
       _getTableHeight() {
         if (this.$refs.kalixTableContainer && this.$refs.kalixTableContainer.clientHeight) {
@@ -724,6 +803,21 @@
 </style>
 <style scoped lang="stylus" type="text/stylus">
   @import "../../assets/stylus/baseTable.styl"
+  .kalix-wrapper
+    display: flex;
+    flex-direction: column;
+    .kalix-wrapper-bd
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      .kalix-table-container
+        overflow-y: auto;
+        flex: 1;
+        position: relative;
+        top: 0;
+        bottom: 0;
+        margin-bottom: 16px;
+
   .tree-icon
     margin-right 8px
     color #dd9e4a

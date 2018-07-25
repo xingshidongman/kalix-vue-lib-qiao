@@ -41,6 +41,10 @@
       dropDownTitle: {
         default: '操作'
       },
+      isTreeGridTool: {
+        type: Boolean,
+        default: false
+      },
       scope: {
         type: Object
       },
@@ -81,7 +85,11 @@
     },
     methods: {
       handleCommand(command) {
-        this.toggle(this.scope.row, command)
+        if (this.isTreeGridTool) {
+          this.toggle(this.scope, command)
+        } else {
+          this.toggle(this.scope.row, command)
+        }
       },
       btnShow(btn) {
         return (btn.isShow && (!btn.cond || btn.cond(this.scope)))
