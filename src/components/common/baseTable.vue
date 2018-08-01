@@ -654,6 +654,8 @@
             })
           }
 //          console.log(`[Kalix] table tool button list is `, this.btnList)
+        } else {
+          this.toolbarBtnListClone = this.toolbarBtnList
         }
       },
       _getTableHeight() {
