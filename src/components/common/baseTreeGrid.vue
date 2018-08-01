@@ -323,7 +323,7 @@
           // 发送按钮验证
           if (_permissionData.length > 0) {
             this.$http.get(`${SecurityBtnUrl}${_permissionData.join('_')}`).then(res => {
-              console.log('---------------99999res.data.buttons=============', res.data.buttons)
+              // console.log('---------------99999res.data.buttons=============', res.data.buttons)
               res.data.buttons.forEach(item => {
                 let tmp = this.btnList.find(e => {
                   if (e.permission === item.permission) {
@@ -331,8 +331,8 @@
                   }
                 })
                 if (tmp) {
-                  console.log('---------------99999tmp=============', tmp)
-                  console.log('---------------99999item=============', item)
+                  // console.log('---------------99999tmp=============', tmp)
+                  // console.log('---------------99999item=============', item)
                   tmp.isShow = item.status // 根据返回的权限确定按钮是否显示
                 }
               })
@@ -345,14 +345,14 @@
                     }
                   })
                   if (tmp) {
-                    console.log('---------------88888tmp=============', tmp)
-                    console.log('---------------88888item=============', item)
+                    // console.log('---------------88888tmp=============', tmp)
+                    // console.log('---------------88888item=============', item)
                     tmp.isShow = item.status
                     tempToolbarBtnList.push(tmp)
                   }
                 }
               })
-              console.log('---------------88888tempToolbarBtnList=============', tempToolbarBtnList)
+              // console.log('---------------88888tempToolbarBtnList=============', tempToolbarBtnList)
               this.toolbarBtnListClone = tempToolbarBtnList
             })
           }
