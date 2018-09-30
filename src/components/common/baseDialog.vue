@@ -10,7 +10,7 @@
     v-bind:before-close="close"
     v-bind:close-on-click-modal="false" v-bind:size="size"
     v-bind:append-to-body="true")
-      el-form(ref="dialogForm" v-bind:model="formModel" label-width="80px")
+      el-form(ref="dialogForm" v-bind:model="formModel" label-width="80px" v-on:submit.native.prevent="")
         slot(name="dialogFormSlot")
       div.dialog-footer(slot="footer")
         template(v-if="isView")
